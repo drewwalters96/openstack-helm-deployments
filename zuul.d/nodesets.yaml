@@ -10,10 +10,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- project:
-    check:
-      jobs:
-        - openstack-helm-deployments-test
-    gate:
-      jobs:
-        - noop
+- nodeset:
+    name: openstack-helm-deployments-single-16GB-bionic-node
+    nodes:
+      - name: primary
+        label: ubuntu-bionic-32GB

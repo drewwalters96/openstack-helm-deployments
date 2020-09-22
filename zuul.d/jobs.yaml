@@ -1,0 +1,50 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- job:
+    name: openstack-helm-deployments-test
+    description: |
+      Deploys the OpenStack-Helm composite using Airship CI infrastructure.
+      infrastructure.
+    timeout: 7200
+    attempts: 1
+    required-projects:
+      - airship/airshipctl
+    roles:
+      - zuul: airship/airshipctl
+    pre-run:
+      - playbooks/openstack-helm-deployments-deploy-docker.yaml
+      - playbooks/openstack-helm-deployments-build-gate.yaml
+    post-run: playbooks/openstack-helm-deployments-collect-logs.yaml
+    run: playbooks/openstack-helm-deployments-gate-runner.yaml
+    nodeset: openstack-helm-deployments-single-16GB-bionic-node
+    vars:
+      site_name: test-site
+      gate_scripts:
+        - ./tools/deployment/01_install_kubectl.sh
+        - ./tools/deployment/22_test_configs.sh
+        # TODO(drewwalters96): Remove this when the airshipctl config scripts
+        # support multiple repositories. This imperatively adds the
+        # OSH-deployments repository.
+        - ../../openstack/openstack-helm-deployments/tools/patch-airship-config.sh
+        - ./tools/deployment/23_pull_documents.sh
+        - ./tools/deployment/24_build_ephemeral_iso.sh
+        - ./tools/deployment/25_deploy_ephemeral_node.sh
+        - ./tools/deployment/26_deploy_metal3_capi_ephemeral_node.sh
+        - ./tools/deployment/30_deploy_controlplane.sh
+        - ./tools/deployment/31_deploy_initinfra_target_node.sh
+        - ./tools/deployment/32_cluster_init_target_node.sh
+        - ./tools/deployment/33_cluster_move_target_node.sh
+        - ./tools/deployment/34_deploy_worker_node.sh
+      serve_dir: /srv/iso
+      serve_port: 8099
+    voting: false
