@@ -1,0 +1,4 @@
+# NOTE(drewwalters96): This kustomization entrypoint inherits all phases
+# defined in airshipctl.
+resources:
+  - ../../../../../airshipctl/manifests/phases

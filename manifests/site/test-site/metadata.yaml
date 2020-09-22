@@ -1,0 +1,2 @@
+phase:
+  path: openstack-helm-deployments/manifests/site/test-site/phases
