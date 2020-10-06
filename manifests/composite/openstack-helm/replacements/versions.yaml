@@ -1,0 +1,24 @@
+---
+apiVersion: airshipit.org/v1alpha1
+kind: ReplacementTransformer
+metadata:
+  name: versions-replacements
+replacements:
+- source:
+    objref:
+      name: versions-openstack-helm
+    fieldref: charts.memcached
+  target:
+    objref:
+      kind: HelmRelease
+      name: memcached
+    fieldrefs: ["spec.chart"]
+- source:
+    objref:
+      name: versions-openstack-helm
+    fieldref: images.memcached
+  target:
+    objref:
+      kind: HelmRelease
+      name: memcached
+    fieldrefs: ["spec.values.images.tags"]

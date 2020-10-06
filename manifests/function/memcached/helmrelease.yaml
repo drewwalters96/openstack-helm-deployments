@@ -1,0 +1,19 @@
+---
+apiVersion: "helm.fluxcd.io/v1"
+kind: HelmRelease
+metadata:
+  name: memcached
+spec:
+  wait: true
+  timeout: 600
+  values:
+    monitoring:
+      prometheus:
+        enabled: true
+    labels:
+      server:
+        node_selector_key: node-type
+        node_selector_value: controlplane
+      prometheus_memcached_exporter:
+        node_selector_key: node-type
+        node_selector_value: controlplane

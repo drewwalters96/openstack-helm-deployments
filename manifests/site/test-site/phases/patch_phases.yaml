@@ -1,0 +1,12 @@
+# NOTE(drewwalters96): The phases in airshipctl use airshipctl
+# documentEntryPoints. By patching the workload documentEntryPoint, we instruct
+# airshipctl to use the documents in openstack-helm-deployments when running
+# the workload-target phase.
+---
+apiVersion: airshipit.org/v1alpha1
+kind: Phase
+metadata:
+  name: workload-target
+  clusterName: target-cluster
+config:
+  documentEntryPoint: openstack-helm-deployments/manifests/site/test-site/target/workload

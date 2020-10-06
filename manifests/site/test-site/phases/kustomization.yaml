@@ -1,4 +1,8 @@
 # NOTE(drewwalters96): This kustomization entrypoint inherits all phases
-# defined in airshipctl.
+# defined in airshipctl and patches a phases's documentEntryPoint.
+#
+# See patch_phases.yaml for further explanation.
 resources:
   - ../../../../../airshipctl/manifests/phases
+patchesStrategicMerge:
+  - patch_phases.yaml

@@ -1,0 +1,22 @@
+---
+apiVersion: airshipit.org/v1alpha1
+kind: VariableCatalogue
+metadata:
+  name: versions-openstack-helm
+  labels:
+    airshipit.org/deploy-k8s: "false"
+
+charts:
+  # TODO(drewwalters96): Switch to a Helm chart repository that publishes OSH
+  # charts with helm-toolkit. This will fail in the meantime.
+  memcached:
+    git: https://opendev.org/openstack/openstack-helm-infra.git
+    path: memcached
+    ref: master
+
+images:
+  memcached:
+    dep_check: quay.io/airshipit/kubernetes-entrypoint:v1.0.0
+    memcached: docker.io/memcached:1.5.5
+    prometheus_memcached_exporter: docker.io/prom/memcached-exporter:v0.4.1
+    image_repo_sync: docker.io/docker:17.07.0

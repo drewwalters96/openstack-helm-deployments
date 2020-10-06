@@ -1,0 +1,6 @@
+resources:
+  - ../../../../composite/openstack-helm
+  - ../../../../function/catalogues-openstack-helm
+
+transformers:
+  - ../../../../composite/openstack-helm/replacements

@@ -1,0 +1,4 @@
+resources:
+  - ../../function/memcached
+  - namespace.yaml
+namespace: openstack
